@@ -32,11 +32,11 @@ func RegisterHandler() *chi.Mux {
 }
 
 func registerNewsHandler(r *chi.Mux, handler NewsHandler) {
-	// Subrouters:
+	// SubRouters:
 	r.Route("/news", func(r chi.Router) {
 		r.Post("/", handler.Post) // POST /news
 		r.Get("/", handler.Get)   // GET /news?offset=0&limit=10
-		// Subrouters:
+		// SubRouters:
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(handler.NewsCtx)
 			r.Put("/", handler.Update)    // PUT /news/newsid01

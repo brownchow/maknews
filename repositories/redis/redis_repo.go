@@ -78,7 +78,7 @@ func (r *newsRedisRepository) Store(data []m.News) error {
 		}
 		r.client.Expire(key, r.expiration)
 
-		member := &redis.Z{
+		member := redis.Z{
 			Score:  score,
 			Member: key,
 		}

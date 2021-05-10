@@ -91,7 +91,7 @@ Here is our API List and its payload:
 	ID: 	 15,
 	Author:  "Rest",
 	Body: 	 "Hello this is news from REST",
-	Created: "2020-03-01T22:59:59.999Z"
+	Created: "2020-03-01T22:59:59.999"
 }
 ```
 4. [DELETE] **/news/{_news\_id_}**  
@@ -125,11 +125,11 @@ The apps flow would be like this:
 3. Update news using [PUT] /news url:
 	- update data in persistence database (MySQL or MongoDB)
 	- update data in elasticsearch
-	- update data in cache databse (Redis)
+	- update data in cache database (Redis)
 4. Delete news using [DELETE /news url:
 	- delete data in persistence database (MySQL or MongoDB)
 	- delete data in elasticsearch
-	- delete data in cache databse (Redis)
+	- delete data in cache database (Redis)
 
 Project Structure
 ---

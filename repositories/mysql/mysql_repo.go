@@ -113,14 +113,14 @@ func (r *newsMySQLRepository) GetBy(filter map[string]interface{}) (*m.News, err
 func (r *newsMySQLRepository) Store(data *m.News) error {
 	db, e := newNewsClient(r.url)
 	if e != nil {
-		return errors.Wrap(e, "repository.News.Store")
+		return errors.Wrap(e, "repository.News.Store.persistence")
 	}
 	defer db.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), r.timeout)
 	defer cancel()
 	conn, e := db.Conn(ctx)
 	if e != nil {
-		return errors.Wrap(e, "repository.News.Store")
+		return errors.Wrap(e, "repository.News.Store.persistence")
 	}
 	defer conn.Close()
 
@@ -128,10 +128,10 @@ func (r *newsMySQLRepository) Store(data *m.News) error {
 
 	stmt, e := conn.PrepareContext(ctx, q)
 	if e != nil {
-		return errors.Wrap(e, "repository.News.Store")
+		return errors.Wrap(e, "repository.News.Store.persistence")
 	}
 	if _, e := stmt.Exec(dataField...); e != nil {
-		return errors.Wrap(e, "repository.News.Store")
+		return errors.Wrap(e, "repository.News.Store.persistence")
 	}
 
 	return nil
@@ -142,14 +142,14 @@ func (r *newsMySQLRepository) Update(data map[string]interface{}, id int) (*m.Ne
 	news := new(m.News)
 	db, e := newNewsClient(r.url)
 	if e != nil {
-		return news, errors.Wrap(e, "repository.News.Store")
+		return news, errors.Wrap(e, "repository.News.Store.persistence")
 	}
 	defer db.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), r.timeout)
 	defer cancel()
 	conn, e := db.Conn(ctx)
 	if e != nil {
-		return news, errors.Wrap(e, "repository.News.Update")
+		return news, errors.Wrap(e, "repository.News.Update.persistence")
 	}
 	defer conn.Close()
 
@@ -157,23 +157,23 @@ func (r *newsMySQLRepository) Update(data map[string]interface{}, id int) (*m.Ne
 	q, dataField := constructUpdateQuery(data, filter)
 	stmt, e := conn.PrepareContext(ctx, q)
 	if e != nil {
-		return news, errors.Wrap(e, "repository.News.Update")
+		return news, errors.Wrap(e, "repository.News.Update.persistence")
 	}
 	defer stmt.Close()
 	if res, e := stmt.Exec(dataField...); e != nil {
-		return news, errors.Wrap(e, "repository.News.Update")
+		return news, errors.Wrap(e, "repository.News.Update.persistence")
 	} else {
 		count, e := res.RowsAffected()
 		if e != nil {
-			return news, errors.Wrap(e, "repository.News.Update")
+			return news, errors.Wrap(e, "repository.News.Update.persistence")
 		}
 		if count == 0 {
-			return news, errors.Wrap(helper.ErrDataNotFound, "repository.News.Update")
+			return news, errors.Wrap(helper.ErrDataNotFound, "repository.News.Update.persistence")
 		}
 	}
 	news, e = r.GetBy(filter)
 	if e != nil {
-		return news, errors.Wrap(e, "repository.News.Update")
+		return news, errors.Wrap(e, "repository.News.Update.persistence")
 	}
 
 	return news, nil

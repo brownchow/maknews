@@ -118,7 +118,7 @@ func (u *newsService) GetById(id int) (*m.News, error) {
 }
 func (u *newsService) Store(data *m.News) error {
 	if e := u.kafkaRepo.WriteMessage(data); e != nil {
-		return errs.Wrap(e, "service.News.Store")
+		return errs.Wrap(e, "service.News.Store.kafka")
 	}
 
 	eNews := m.ElasticNews{
@@ -126,11 +126,11 @@ func (u *newsService) Store(data *m.News) error {
 		Created: data.Created,
 	}
 	if e := u.elasticRepo.Store(eNews); e != nil {
-		return errs.Wrap(e, "service.News.Store")
+		return errs.Wrap(e, "service.News.Store.elastic")
 	}
 
 	if e := validate.Validate(data); e != nil {
-		return errs.Wrap(helper.ErrDataInvalid, "service.News.Store")
+		return errs.Wrap(helper.ErrDataInvalid, "service.News.Store.validate")
 	}
 	return u.repo.Store(data)
 
@@ -138,7 +138,7 @@ func (u *newsService) Store(data *m.News) error {
 func (u *newsService) Update(data map[string]interface{}, id int) (*m.News, error) {
 	updatedData, e := u.repo.Update(data, id)
 	if e != nil {
-		return updatedData, errs.Wrap(e, "service.News.Update")
+		return updatedData, errs.Wrap(e, "service.News.Update.persistence")
 	}
 	eNews := m.ElasticNews{
 		ID:      updatedData.ID,
