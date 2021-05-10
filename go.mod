@@ -15,4 +15,5 @@ require (
 	go.mongodb.org/mongo-driver v1.5.2
 	gopkg.in/dealancer/validate.v2 v2.1.0
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 )

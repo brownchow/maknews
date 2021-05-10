@@ -1,0 +1,25 @@
+server:
+  host: 127.0.0.1
+  port: 8000
+db:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: nuist_034
+  dbname: news
+  timeout: 10
+redis:
+  host: redis
+  port: 6379
+  db: 0
+  timeout: 10
+es:
+  host: 127.0.0.1
+  port: 9200
+  timeout: 10
+  index: news
+kafka:
+  host: 127.0.0.1
+  port: 9092
+  timeout: 10
+  topic: news
